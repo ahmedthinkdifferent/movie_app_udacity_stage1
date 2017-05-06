@@ -20,8 +20,8 @@ public class Utility {
     }
 
 
-    public static void openYoutubeVideo(Context context, String youtubeVideoId) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + youtubeVideoId));
+    public static void openYoutubeVideo(Context context, String videoKey) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videoKey));
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             context.startActivity(intent);
         }

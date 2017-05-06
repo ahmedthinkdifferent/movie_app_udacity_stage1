@@ -1,10 +1,16 @@
-package com.udacity.movieapp.ui.screen.moviesList;
+package com.udacity.movieapp.ui.screen.movieslist;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.udacity.movieapp.R;
 import com.udacity.movieapp.data.helper.JsonParser;
 import com.udacity.movieapp.data.listener.LoadMoviesListener;
+import com.udacity.movieapp.data.model.Movie;
 import com.udacity.movieapp.data.networking.ApiManager;
 import com.udacity.movieapp.util.ConnectionHelper;
+
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import okhttp3.ResponseBody;
 
@@ -16,6 +22,8 @@ class MoviesPresenter implements LoadMoviesListener {
 
     private ConnectionHelper connectionHelper;
     private MoviesView moviesView;
+    private Map<String, List<Movie>> moviesList = new TreeMap<>();
+    private String moviesType;
 
     MoviesPresenter(ConnectionHelper connectionHelper, MoviesView moviesView) {
         this.connectionHelper = connectionHelper;
@@ -25,6 +33,18 @@ class MoviesPresenter implements LoadMoviesListener {
 
 
     void loadMovies(String moviesType) {
+        this.moviesType = moviesType;
+        if (moviesList.containsKey(moviesType)) {
+            moviesView.showMovies(moviesList.get(moviesType));
+            return;
+        }
+
+        if (moviesType.equals("favourites")) {
+            List<Movie> movies = SQLite.select().from(Movie.class).queryList();
+            moviesView.showMovies(movies);
+            return;
+        }
+
         if (!connectionHelper.isInternetAvailable()) {
             // internet not available.
             moviesView.hideMoviesRecyclerList();
@@ -41,7 +61,9 @@ class MoviesPresenter implements LoadMoviesListener {
     public void loadMoviesSuccess(ResponseBody jsonData) {
         try {
             moviesView.showMoviesRecyclerList();
-            moviesView.showMovies(JsonParser.getMovies(jsonData.string()));
+            List<Movie> movies = JsonParser.getMovies(jsonData.string());
+            moviesList.put(moviesType, movies);
+            moviesView.showMovies(movies);
             moviesView.showToastMessage(R.string.load_movies_successfully);
         } catch (Exception e) {
             e.printStackTrace();

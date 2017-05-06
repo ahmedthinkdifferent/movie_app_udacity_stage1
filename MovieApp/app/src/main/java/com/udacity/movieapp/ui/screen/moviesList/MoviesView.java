@@ -1,4 +1,4 @@
-package com.udacity.movieapp.ui.screen.moviesList;
+package com.udacity.movieapp.ui.screen.movieslist;
 
 import android.support.annotation.StringRes;
 

@@ -1,4 +1,4 @@
-package com.udacity.movieapp.ui.screen.moviesList;
+package com.udacity.movieapp.ui.screen.movieslist;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import com.udacity.movieapp.R;
 import com.udacity.movieapp.adapter.moviesList.MovieItemClickListener;
 import com.udacity.movieapp.adapter.moviesList.MoviesAdapter;
 import com.udacity.movieapp.data.model.Movie;
-import com.udacity.movieapp.ui.screen.movieDetails.MovieDetailsActivity;
+import com.udacity.movieapp.ui.screen.moviedetails.MovieDetailsActivity;
 import com.udacity.movieapp.util.ConnectionHelper;
 import com.udacity.movieapp.util.Utility;
 
@@ -31,6 +31,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesView, Mov
 
     private static final String POPULAR_MOVIES = "popular";
     private static final String TOP_RATED_MOVIES = "top_rated";
+    private static final String FAVOURITES = "favourites";
 
     @BindView(R.id.rv_movies)
     RecyclerView moviesList;
@@ -55,10 +56,13 @@ public class MoviesActivity extends AppCompatActivity implements MoviesView, Mov
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_popular) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_popular) {
             moviesCategory = POPULAR_MOVIES;
-        } else {
+        } else if (itemId == R.id.action_top_rated) {
             moviesCategory = TOP_RATED_MOVIES;
+        } else {
+            moviesCategory = FAVOURITES;
         }
 
         moviesPresenter.loadMovies(moviesCategory);
@@ -124,6 +128,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesView, Mov
 
     @Override
     public void onMovieClick(Movie movie) {
-      startActivity(new Intent(this, MovieDetailsActivity.class).putExtra(MovieDetailsActivity.MOVIE_KEY , movie));
+        startActivity(new Intent(this, MovieDetailsActivity.class).putExtra(MovieDetailsActivity.MOVIE_KEY, movie));
     }
 }

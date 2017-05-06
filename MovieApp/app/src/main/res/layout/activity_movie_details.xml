@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.udacity.movieapp.ui.screen.movieDetails.MovieDetailsActivity"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    tools:context="com.udacity.movieapp.ui.screen.moviedetails.MovieDetailsActivity">
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/layout_movie_title"
@@ -96,11 +98,22 @@
             android:padding="8dp"
             tools:text="this is description" />
 
+        <TextView
+            android:id="@+id/tv_movie_reviews"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_movie_description"
+            android:layout_marginTop="12dp"
+            android:padding="8dp"
+            android:text="@string/reviews" />
+
+
         <View
             android:id="@+id/view_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/tv_movie_description"
+            android:layout_below="@id/tv_movie_reviews"
             android:layout_margin="8dp"
             android:background="#696666" />
 
@@ -113,10 +126,10 @@
             android:padding="8dp"
             android:text="@string/trailers" />
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/lv_movie_trailers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/tv_trailers"
             android:divider="#a5a5a5"
             android:dividerHeight="1dp"
